@@ -1,0 +1,48 @@
+<template name="students">
+  <h1>Students</h1>
+  <a href="/classes">Back to classes list</a><br />
+  These students are of class: {{className}}.
+    <form name="edit_students">
+        {{#if editingStudents}}
+            <div class="btn btn-inverse" id="btnFinishEditingStudents">Finish</div>
+        {{else}}
+            <div class="btn btn-inverse" id="btnEditStudents">Edit</div>
+        {{/if}}
+    <br />
+    <table id="class_table" class="table table-striped span6">
+      <thead>
+        <tr>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Age</th>
+          <th>Allergy</th>
+        {{#if editingStudents}}
+          <th>Action</th>
+        {{/if}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each studentList}}
+        <tr>
+          <td>{{lastname}}</td>
+          <td>{{firstname}}</td>
+          <td>{{age}}</td>
+          <td>{{allergy}}</td>
+        {{#if editingStudents}}
+          <td><div class="btn btn-inverse edit_student" id="{{this._id}}">...</div></td>
+          <td><div class="btn btn-inverse delete_student" id="{{this._id}}">X</div></td>
+        {{/if}}
+        </tr>
+        {{/each}}
+        {{#if editingStudents}}
+        <tr>
+          <td><input class="input-small" type="text" id="lastname" placeholder="lastname"></input></td>
+          <td><input class="input-small" type="text" id="firstname" placeholder="firstname"></input></td>
+          <td><input class="input-small" type="text" id="age" placeholder="age"></input></td>
+          <td><input class="input-small" type="text" id="allergy" placeholder="allergy"></input></td>
+          <td><div class="btn btn-inverse" id="btnAddStudent">&plus;</div></td>
+        </tr>
+        {{/if}}
+      </tbody>
+    </table>
+</template>

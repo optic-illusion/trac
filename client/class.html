@@ -1,0 +1,42 @@
+<template name="classes">
+  <h1>Classes</h1>
+    <form name="new_class">
+        {{#if editingClasses}}
+            <div class="btn btn-inverse" id="btnFinishEditingClasses">Finish</div>
+        {{else}}
+            <div class="btn btn-inverse" id="btnEditClasses">Edit</div>
+        {{/if}}
+    <br />
+    <table id="class_table" class="table table-striped span6">
+      <thead>
+        <tr>
+          <th>Grade</th>
+          <th>Section</th>
+          <th>Room Number</th>
+        {{#if editingClasses}}
+          <th>Action</th>
+        {{/if}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each classList}}
+        <tr>
+          <td><a href="students?classId={{_id}}">{{grade}}</a></td>
+          <td>{{section}}</td>
+          <td>{{room}}</td>
+        {{#if editingClasses}}
+          <td><div class="btn btn-inverse delete_class" id="{{this._id}}">X</div></td>
+        {{/if}}
+        </tr>
+        {{/each}}
+        {{#if editingClasses}}
+        <tr>
+          <td><input class="input-small" type="text" id="grade" placeholder="Enter grade"></input></td>
+          <td><input class="input-small" type="text" id="section" placeholder="Enter section"></input></td>
+          <td><input class="input-small" type="text" id="room" placeholder="Enter room"></input></td>
+          <td><div class="btn btn-inverse" id="btnAddClass">&plus;</div></td>
+        </tr>
+        {{/if}}
+      </tbody>
+    </table>
+</template>
