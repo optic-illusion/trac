@@ -18,9 +18,10 @@ Template.classes.events({
     Meteor.flush();
   },
   'click .delete_class' : function (e, t) {
-    confirm("Are you sure you want to delete this class? This action is irreversable.");
-    console.log("Deleting: " + e.target.id);
-    classes.remove({_id: e.target.id});
+    if (confirm("Are you sure you want to delete this class? This action is irreversable.")) {
+      console.log("Deleting: " + e.target.id);
+      classes.remove({_id: e.target.id});
+    }
   },
   'click #btnAddClass' : function (e, t) {
     classes.insert({grade: t.find("#grade").value, section: t.find("#section").value, room: t.find("#room").value});

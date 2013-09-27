@@ -24,17 +24,30 @@
       <tbody>
         {{#each studentList}}
         <tr>
+          {{#if updatingThisStudent}}
+          <td><input class="input-small" type="text" id="lastname" placeholder="{{lastname}}"></input></td>
+          <td><input class="input-small" type="text" id="firstname" placeholder="{{firstname}}"></input></td>
+          <td><input class="input-small" type="text" id="age" placeholder="{{age}}"></input></td>
+          <td><input class="input-small" type="text" id="allergy" placeholder="{{allergy}}"></input></td>
+          {{else}}
           <td>{{lastname}}</td>
           <td>{{firstname}}</td>
           <td>{{age}}</td>
           <td>{{allergy}}</td>
+          {{/if}}
         {{#if editingStudents}}
-          <td><div class="btn btn-inverse edit_student" id="{{this._id}}">...</div></td>
+          {{#if updatingThisStudent}}
+          <td><div class="btn btn-inverse save_update_student" id="{{this._id}}">Save</div></td>
+          <td><div class="btn btn-inverse cancel_update_student" id="{{this._id}}">Cancel</div></td>
+          {{else}}
+          <td><div class="btn btn-inverse update_student" id="{{this._id}}">...</div></td>
           <td><div class="btn btn-inverse delete_student" id="{{this._id}}">X</div></td>
+          {{/if}}
         {{/if}}
         </tr>
         {{/each}}
         {{#if editingStudents}}
+          {{#unless updatingStudent}}
         <tr>
           <td><input class="input-small" type="text" id="lastname" placeholder="lastname"></input></td>
           <td><input class="input-small" type="text" id="firstname" placeholder="firstname"></input></td>
@@ -42,6 +55,7 @@
           <td><input class="input-small" type="text" id="allergy" placeholder="allergy"></input></td>
           <td><div class="btn btn-inverse" id="btnAddStudent">&plus;</div></td>
         </tr>
+          {{/unless}}
         {{/if}}
       </tbody>
     </table>
