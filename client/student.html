@@ -1,15 +1,13 @@
 <template name="students">
-  <h1>Students</h1>
-  <a href="/classes">Back to classes list</a><br />
   These students are of class: {{className}}.
     <form name="edit_students">
         {{#if editingStudents}}
-            <div class="btn btn-inverse" id="btnFinishEditingStudents">Finish</div>
+            <div class="btn" id="btnFinishEditingStudents">Finish</div>
         {{else}}
-            <div class="btn btn-inverse" id="btnEditStudents">Edit</div>
+            <div class="btn" id="btnEditStudents">Edit</div>
         {{/if}}
     <br />
-    <table id="class_table" class="table table-striped span6">
+    <table id="student_table" class="table table-striped">
       <thead>
         <tr>
           <th>Last Name</th>
@@ -25,10 +23,10 @@
         {{#each studentList}}
         <tr>
           {{#if updatingThisStudent}}
-          <td><input class="input-small" type="text" id="lastname" placeholder="{{lastname}}"></input></td>
-          <td><input class="input-small" type="text" id="firstname" placeholder="{{firstname}}"></input></td>
-          <td><input class="input-small" type="text" id="age" placeholder="{{age}}"></input></td>
-          <td><input class="input-small" type="text" id="allergy" placeholder="{{allergy}}"></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="edit_lastname" placeholder="{{lastname}}" title="Please enter student's first name."></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="edit_firstname" placeholder="{{firstname}}" title="Please enter student's first name."></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="edit_age" placeholder="{{age}}" title="Please enter age of student." pattern="[0-9]{1,3}"></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="edit_allergy" placeholder="{{allergy}}" title="Please enter any allergies the student has."></input></td>
           {{else}}
           <td>{{lastname}}</td>
           <td>{{firstname}}</td>
@@ -37,11 +35,19 @@
           {{/if}}
         {{#if editingStudents}}
           {{#if updatingThisStudent}}
-          <td><div class="btn btn-inverse save_update_student" id="{{this._id}}">Save</div></td>
-          <td><div class="btn btn-inverse cancel_update_student" id="{{this._id}}">Cancel</div></td>
+          <td>
+            <div class="btn-group">
+              <a class="btn save_update_student" href="#"><i class="icon-ok-sign"></i></a>
+              <a class="btn cancel_update_student" href="#"><i class="icon-remove-sign"></i></a>
+            </div>
+          </td>
           {{else}}
-          <td><div class="btn btn-inverse update_student" id="{{this._id}}">...</div></td>
-          <td><div class="btn btn-inverse delete_student" id="{{this._id}}">X</div></td>
+          <td>
+            <div class="btn-group">
+              <a class="btn update_student" href="#"><i class="icon-pencil"></i></a>
+              <a class="btn delete_student" href="#"><i class="icon-remove"></i></a>
+            </div>
+          </td>
           {{/if}}
         {{/if}}
         </tr>
@@ -49,11 +55,11 @@
         {{#if editingStudents}}
           {{#unless updatingStudent}}
         <tr>
-          <td><input class="input-small" type="text" id="lastname" placeholder="lastname"></input></td>
-          <td><input class="input-small" type="text" id="firstname" placeholder="firstname"></input></td>
-          <td><input class="input-small" type="text" id="age" placeholder="age"></input></td>
-          <td><input class="input-small" type="text" id="allergy" placeholder="allergy"></input></td>
-          <td><div class="btn btn-inverse" id="btnAddStudent">&plus;</div></td>
+          <td><input class="input-small tooltipclass" type="text" id="lastname" placeholder="lastname" required title="Please enter student's first name."></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="firstname" placeholder="firstname" required title="Please enter student's first name."></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="age" placeholder="age" pattern="[0-9]{1,3}" required title="Please enter age of student."></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="allergy" placeholder="allergy" title="Please enter any allergies the student has."></input></td>
+          <td><a class="btn" id="btnAddStudent" href="#"><i class="icon-plus"></i></a></td>
         </tr>
           {{/unless}}
         {{/if}}

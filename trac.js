@@ -1,14 +1,14 @@
 classes = new Meteor.Collection("Classes");
 students = new Meteor.Collection("Students");
+events = new Meteor.Collection("Events");
 
 Router.map(function () {
-  this.route('classes', {
+  this.route('navbar', {
     path: '/'
   });
   this.route('classes', {
     path: '/classes'
   });
-
   this.route('students', {
     path: '/students',
     data: function() { 
@@ -17,5 +17,8 @@ Router.map(function () {
         students:students.find({classId: this.params.classId})
       }
     }
+  });
+  this.route('events', {
+    path: '/events'
   });
 });

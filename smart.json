@@ -1,6 +1,9 @@
 {
   "packages": {
     "iron-router": {},
-    "accounts-ui-bootstrap-dropdown": {}
+    "accounts-ui-bootstrap-dropdown": {},
+    "bootstrap-datepicker": {},
+    "bootstrap-datepicker2": {},
+    "moment": {}
   }
 }

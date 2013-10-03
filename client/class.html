@@ -1,13 +1,16 @@
 <template name="classes">
-  <h1>Classes</h1>
+  <head>
+    <title>Classes</title>
+  </head>
+  <body>
     <form name="new_class">
         {{#if editingClasses}}
-            <div class="btn btn-inverse" id="btnFinishEditingClasses">Finish</div>
+            <div class="btn" id="btnFinishEditingClasses">Finish</div>
         {{else}}
-            <div class="btn btn-inverse" id="btnEditClasses">Edit</div>
+            <div class="btn" id="btnEditClasses">Edit</div>
         {{/if}}
     <br />
-    <table id="class_table" class="table table-striped span6">
+    <table id="class_table" class="table table-striped">
       <thead>
         <tr>
           <th>Grade</th>
@@ -21,22 +24,23 @@
       <tbody>
         {{#each classList}}
         <tr>
-          <td><a href="students?classId={{_id}}">{{grade}}</a></td>
+          <td><a href="#" class="select_class">{{grade}}</a></td>
           <td>{{section}}</td>
           <td>{{room}}</td>
         {{#if editingClasses}}
-          <td><div class="btn btn-inverse delete_class" id="{{this._id}}">X</div></td>
+          <td><a class="btn delete_class" href="#"><i class="icon-remove"></i></a></td>
         {{/if}}
         </tr>
         {{/each}}
         {{#if editingClasses}}
         <tr>
-          <td><input class="input-small" type="text" id="grade" placeholder="Enter grade"></input></td>
-          <td><input class="input-small" type="text" id="section" placeholder="Enter section"></input></td>
-          <td><input class="input-small" type="text" id="room" placeholder="Enter room"></input></td>
-          <td><div class="btn btn-inverse" id="btnAddClass">&plus;</div></td>
+          <td><input class="input-small tooltipclass" type="text" id="grade" placeholder="Enter grade" title="Please enter a grade."required></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="section" placeholder="Enter section" title="Please enter a section." required></input></td>
+          <td><input class="input-small tooltipclass" type="text" id="room" placeholder="Enter room" title="Please enter a room number." required></input></td>
+          <td><a class="btn" id="btnAddClass" href="#"><i class="icon-plus"></i></a></td>
         </tr>
         {{/if}}
       </tbody>
     </table>
+  <body>
 </template>

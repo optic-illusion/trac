@@ -11,3 +11,5 @@ iron-router
 accounts-ui-bootstrap-dropdown
 bootstrap
 accounts-password
+bootstrap-datepicker2
+moment

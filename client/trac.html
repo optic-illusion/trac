@@ -1,0 +1,22 @@
+<template name="navbar">
+  <body>
+  <div class="tabbable">
+    <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href="#classTab" data-target="#classTab" data-toggle="tab" id="class_nav">Classes</a></li>
+      <li class="disabled"><a data-target="#studentTab" class="tooltipclass" data-toogle="tooltip" title="Click on a class to edit students.">Students</a></li>
+      <li><a href="#eventTab" data-target="#eventTab" data-toggle="tab">Events</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="classTab">
+      {{> classes}}
+      </div>
+      <div class="tab-pane" id="studentTab">
+      {{> students}}
+      </div>
+      <div class="tab-pane" id="eventTab">
+      {{> events}}
+      </div>
+    </div>
+  </div>
+  </body>
+</template>

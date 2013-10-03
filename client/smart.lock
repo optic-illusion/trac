@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "bootstrap-datepicker2": {}
+    },
+    "packages": {
+      "bootstrap-datepicker2": {
+        "git": "https://github.com/deepwell/meteor-bootstrap-datepicker.git",
+        "tag": "v1.1.3",
+        "commit": "4581eef4760ad2022d0143dcc8cc0a28afc2f7a2"
+      }
+    }
+  }
+}
