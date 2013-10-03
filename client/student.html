@@ -1,68 +1,129 @@
 <template name="students">
   These students are of class: {{className}}.
-    <form name="edit_students">
-        {{#if editingStudents}}
-            <div class="btn" id="btnFinishEditingStudents">Finish</div>
-        {{else}}
-            <div class="btn" id="btnEditStudents">Edit</div>
-        {{/if}}
-    <br />
-    <table id="student_table" class="table table-striped">
-      <thead>
-        <tr>
-          <th>Last Name</th>
-          <th>First Name</th>
-          <th>Age</th>
-          <th>Allergy</th>
-        {{#if editingStudents}}
-          <th>Action</th>
-        {{/if}}
-        </tr>
-      </thead>
-      <tbody>
-        {{#each studentList}}
-        <tr>
-          {{#if updatingThisStudent}}
-          <td><input class="input-small tooltipclass" type="text" id="edit_lastname" placeholder="{{lastname}}" title="Please enter student's first name."></input></td>
-          <td><input class="input-small tooltipclass" type="text" id="edit_firstname" placeholder="{{firstname}}" title="Please enter student's first name."></input></td>
-          <td><input class="input-small tooltipclass" type="text" id="edit_age" placeholder="{{age}}" title="Please enter age of student." pattern="[0-9]{1,3}"></input></td>
-          <td><input class="input-small tooltipclass" type="text" id="edit_allergy" placeholder="{{allergy}}" title="Please enter any allergies the student has."></input></td>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#profileTab" data-toggle="tab">Student Profiles</a></li>
+    <li><a href="#signupTab" data-toggle="tab">Event Sign-Ups</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="profileTab">
+      <form name="edit_students">
+          {{#if editingStudents}}
+              <div class="btn" id="btnFinishEditingStudents">Finish</div>
           {{else}}
-          <td>{{lastname}}</td>
-          <td>{{firstname}}</td>
-          <td>{{age}}</td>
-          <td>{{allergy}}</td>
+              <div class="btn" id="btnEditStudents">Edit</div>
           {{/if}}
-        {{#if editingStudents}}
-          {{#if updatingThisStudent}}
-          <td>
-            <div class="btn-group">
-              <a class="btn save_update_student" href="#"><i class="icon-ok-sign"></i></a>
-              <a class="btn cancel_update_student" href="#"><i class="icon-remove-sign"></i></a>
-            </div>
-          </td>
-          {{else}}
-          <td>
-            <div class="btn-group">
-              <a class="btn update_student" href="#"><i class="icon-pencil"></i></a>
-              <a class="btn delete_student" href="#"><i class="icon-remove"></i></a>
-            </div>
-          </td>
+      <br />
+      <table id="student_table" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Age</th>
+            <th>Allergy</th>
+          {{#if editingStudents}}
+            <th>Action</th>
           {{/if}}
-        {{/if}}
-        </tr>
-        {{/each}}
-        {{#if editingStudents}}
-          {{#unless updatingStudent}}
-        <tr>
-          <td><input class="input-small tooltipclass" type="text" id="lastname" placeholder="lastname" required title="Please enter student's first name."></input></td>
-          <td><input class="input-small tooltipclass" type="text" id="firstname" placeholder="firstname" required title="Please enter student's first name."></input></td>
-          <td><input class="input-small tooltipclass" type="text" id="age" placeholder="age" pattern="[0-9]{1,3}" required title="Please enter age of student."></input></td>
-          <td><input class="input-small tooltipclass" type="text" id="allergy" placeholder="allergy" title="Please enter any allergies the student has."></input></td>
-          <td><a class="btn" id="btnAddStudent" href="#"><i class="icon-plus"></i></a></td>
-        </tr>
-          {{/unless}}
-        {{/if}}
-      </tbody>
-    </table>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each studentList}}
+          <tr>
+            {{#if updatingThisStudent}}
+            <td><input class="input-small tooltipclass" type="text" id="edit_lastname" placeholder="{{lastname}}" title="Please enter student's first name."></input></td>
+            <td><input class="input-small tooltipclass" type="text" id="edit_firstname" placeholder="{{firstname}}" title="Please enter student's first name."></input></td>
+            <td><input class="input-small tooltipclass" type="text" id="edit_age" placeholder="{{age}}" title="Please enter age of student." pattern="[0-9]{1,3}"></input></td>
+            <td><input class="input-small tooltipclass" type="text" id="edit_allergy" placeholder="{{allergy}}" title="Please enter any allergies the student has."></input></td>
+            {{else}}
+            <td>{{lastname}}</td>
+            <td>{{firstname}}</td>
+            <td>{{age}}</td>
+            <td>{{allergy}}</td>
+            {{/if}}
+          {{#if editingStudents}}
+            {{#if updatingThisStudent}}
+            <td>
+              <div class="btn-group">
+                <a class="btn save_update_student" href="#"><i class="icon-ok-sign"></i></a>
+                <a class="btn cancel_update_student" href="#"><i class="icon-remove-sign"></i></a>
+              </div>
+            </td>
+            {{else}}
+            <td>
+              <div class="btn-group">
+                <a class="btn update_student" href="#"><i class="icon-pencil"></i></a>
+                <a class="btn delete_student" href="#"><i class="icon-remove"></i></a>
+              </div>
+            </td>
+            {{/if}}
+          {{/if}}
+          </tr>
+          {{/each}}
+          {{#if editingStudents}}
+            {{#unless updatingStudent}}
+          <tr>
+            <td><input class="input-small tooltipclass" type="text" id="lastname" placeholder="lastname" required title="Please enter student's first name."></input></td>
+            <td><input class="input-small tooltipclass" type="text" id="firstname" placeholder="firstname" required title="Please enter student's first name."></input></td>
+            <td><input class="input-small tooltipclass" type="text" id="age" placeholder="age" pattern="[0-9]{1,3}" required title="Please enter age of student."></input></td>
+            <td><input class="input-small tooltipclass" type="text" id="allergy" placeholder="allergy" title="Please enter any allergies the student has."></input></td>
+            <td><a class="btn" id="btnAddStudent" href="#"><i class="icon-plus"></i></a></td>
+          </tr>
+            {{/unless}}
+          {{/if}}
+        </tbody>
+      </table>
+      </form>
+    </div>
+    <div class="tab-pane" id="signupTab">
+      <form name="signup">
+        <table name="signupTable" class="table table-striped">
+          <thead>
+            <tr>
+              <th class="span2">Last Name</th>
+              <th class="span2">First Name</th>
+              <th class="span10">
+                <div class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown">
+                    <font id="eventHeaderTitle">Event</font> <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    {{#each eventList}}
+                    <li><a class="eventHeaderDropdownItem" href="#">{{name}}</a></li>
+                    {{/each}}
+                  </ul>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          {{#each studentList}}
+            <tr>
+              <td class="span2">{{lastname}}</td>
+              <td class="span2">{{firstname}}</td>
+              <td class="span10">
+                <form class="form-inline" id="{{_id}}_attrs">
+                {{#each eventAttributesList}}
+                  {{#if isTextAttributeType}}
+                <div class="input-prepend">
+                  <span class="add-on">{{name}}</span>
+                  <input class="input-small" id="{{../../_id}}_{{name}}" type="text"></input>
+                </div>
+                  {{/if}}
+                  {{#if isNumberAttributeType}}
+                <div class="input-prepend input-append">
+                  <span class="add-on">{{name}}</span>
+                  <input class="input-mini" id="{{../../_id}}_{{name}}" type="text"></input>
+                  <span class="add-on attrPlusButton" id="{{../../_id}}_{{name}}_plus"><i class="icon-plus"></i></span>
+                  <span class="add-on attrMinusButton" id="{{../../_id}}_{{name}}_minus"><i class="icon-minus"></i></span>
+                </div>
+                  {{/if}}
+                {{/each}}
+                </form>
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
 </template>

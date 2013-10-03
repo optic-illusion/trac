@@ -2,6 +2,7 @@ Meteor.subscribe("Students");
 
 Session.set('editing_students', false);
 Session.set('update_student', '');
+Session.set('selected_event_for_signup', '');
 
 Template.students.rendered = function () {
   $('.tooltipclass').tooltip({
@@ -12,8 +13,20 @@ Template.students.rendered = function () {
 Template.students.studentList = function () {
   return students.find({classId: Session.get('selected_class')},{sort :{lastname: 1, firstname: 1}});
 };
+Template.students.eventList = function () {
+  return events.find({},{sort :{name: 1, date: 1}});
+};
 Template.students.editingStudents = function () {
   return Session.equals('editing_students', true);
+};
+Template.students.eventAttributesList = function () {
+  return Session.get('selected_event_for_signup').attributes;
+};
+Template.students.isTextAttributeType = function () {
+  return this.type == "text";
+};
+Template.students.isNumberAttributeType = function () {
+  return this.type == "number";
 };
 Template.students.className = function () {
   if (Session.equals('selected_class', '')) {
@@ -87,6 +100,25 @@ Template.students.events({
       //console.log("Added " + t.find("#lastname").value + ";" + t.find("#firstname").value + ";" + t.find("#age").value + ";" + t.find("#allergy").value + ";" + this.classId);
       t.find("#lastname").value = t.find("#firstname").value = t.find("#age").value = t.find("#allergy").value = "";
     }
+  },
+  'click .eventHeaderDropdownItem' : function (e, t) {
+    t.find("#eventHeaderTitle").innerHTML=this.name;
+    Session.set('selected_event_for_signup', this);
+  },
+  'click .attrPlusButton' : function (e, t) {
+    /*
+    console.log(e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_')));
+    console.log(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value + " ; " +
+(/[0-9]+/).test(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value));
+    */
+    t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value = 
+      ((/[0-9]+/).test(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value))?
+        parseInt(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value)+1 : 1;
+  },
+  'click .attrMinusButton' : function (e, t) {
+    t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value = 
+      ((/[0-9]+/).test(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value))?
+        Math.max(parseInt(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value)-1,0) : 0;
   }
 });
 
