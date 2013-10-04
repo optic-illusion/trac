@@ -105,15 +105,15 @@
                   {{#if isTextAttributeType}}
                 <div class="input-prepend">
                   <span class="add-on">{{name}}</span>
-                  <input class="input-small" id="{{../../_id}}_{{name}}" type="text"></input>
+                  <input class="input-small attrInputField" id="{{../../_id}}_{{name}}" type="text" value="{{findAttrValue ../../events name type}}"></input>
                 </div>
                   {{/if}}
                   {{#if isNumberAttributeType}}
                 <div class="input-prepend input-append">
                   <span class="add-on">{{name}}</span>
-                  <input class="input-mini" id="{{../../_id}}_{{name}}" type="text"></input>
-                  <span class="add-on attrPlusButton" id="{{../../_id}}_{{name}}_plus"><i class="icon-plus"></i></span>
-                  <span class="add-on attrMinusButton" id="{{../../_id}}_{{name}}_minus"><i class="icon-minus"></i></span>
+                  <input class="input-mini tooltipclass" id="{{../../_id}}_{{name}}" type="text" value="{{findAttrValue ../../events name type}}" disabled="disabled" title="Use the '+' and '-' button on the right to change this value."></input>
+                  <span class="add-on attrNumberPlusMinusButton" id="{{../../_id}}_{{name}}_plus"><i class="icon-plus"></i></span>
+                  <span class="add-on attrNumberPlusMinusButton" id="{{../../_id}}_{{name}}_minus"><i class="icon-minus"></i></span>
                 </div>
                   {{/if}}
                 {{/each}}

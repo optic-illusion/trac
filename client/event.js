@@ -137,7 +137,7 @@ Template.events.events({
       }});
       Meteor.flush();
       t.find("#attr_name").value = "";
-      t.find("#attr_type").value = "text";
+      t.find("#attr_type").value = "number";
     }
   }
 });
