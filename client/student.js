@@ -28,6 +28,14 @@ Template.students.isTextAttributeType = function () {
 Template.students.isNumberAttributeType = function () {
   return this.type == "number";
 };
+Template.students.findAttrValue = function (events, event_name, type) {
+  if (events == null || 
+    events[Session.get('selected_event_for_signup').name] == null || 
+    events[Session.get('selected_event_for_signup').name][event_name] == null) 
+    return type == "number"?0:"";
+  else 
+    return events[Session.get('selected_event_for_signup').name][event_name];
+};
 Template.students.className = function () {
   if (Session.equals('selected_class', '')) {
     return "No class selected!"
@@ -105,26 +113,55 @@ Template.students.events({
     t.find("#eventHeaderTitle").innerHTML=this.name;
     Session.set('selected_event_for_signup', this);
   },
-  'click .attrPlusButton' : function (e, t) {
-    /*
-    console.log(e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_')));
-    console.log(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value + " ; " +
-(/[0-9]+/).test(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value));
-    */
-    t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value = 
-      ((/[0-9]+/).test(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value))?
-        parseInt(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value)+1 : 1;
+  'click .attrNumberPlusMinusButton' : function (e, t) {
+    var info = e.currentTarget.id.split('_'); // 0: student._id; 1: event.name; 2: plus/minus
+    //console.log("Student._id: " + info[0] + "; Event: " + info[1]);
+    var student = students.findOne({"_id": info[0]});
+    if (student.events == null) {
+      //console.log("No events found for student: " + student.firstname + ": Initializing events array.");
+      student.events = new Object();
+    }
+    if (student.events[Session.get('selected_event_for_signup').name] == null) {
+      //console.log("No attributes defined for event: " + Session.get('selected_event_for_signup').name + ": Initializing attributes associative array.");
+      student.events[Session.get('selected_event_for_signup').name] = new Object();
+    }
+    if (student.events[Session.get('selected_event_for_signup').name][info[1]] == null) {
+      //console.log("Attribute name not defined in associative array: " + info[1] + ": Initializing name in associative array.");
+      student.events[Session.get('selected_event_for_signup').name][info[1]] = 0;
+    }
+    if (info[2] == "plus") student.events[Session.get('selected_event_for_signup').name][info[1]]++;
+    else if (info[2] == "minus") student.events[Session.get('selected_event_for_signup').name][info[1]] = Math.max(student.events[Session.get('selected_event_for_signup').name][info[1]]-1, 0);
+    students.update({"_id": info[0]}, {$set: {
+      "events": student.events
+    }});
   },
-  'click .attrMinusButton' : function (e, t) {
-    t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value = 
-      ((/[0-9]+/).test(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value))?
-        Math.max(parseInt(t.find("#"+e.currentTarget.id.substring(0,e.currentTarget.id.lastIndexOf('_'))).value)-1,0) : 0;
+  'blur .attrInputField' : function (e, t) {
+    var info = e.currentTarget.id.split('_'); // 0: student._id; 1: event.name; 2: plus/minus
+    //console.log("Student._id: " + info[0] + "; Event: " + info[1]);
+    var student = students.findOne({"_id": info[0]});
+    if (student.events == null) {
+      //console.log("No events found for student: " + student.firstname + ": Initializing events array.");
+      student.events = new Object();
+    }
+    if (student.events[Session.get('selected_event_for_signup').name] == null) {
+      //console.log("No attributes defined for event: " + Session.get('selected_event_for_signup').name + ": Initializing attributes associative array.");
+      student.events[Session.get('selected_event_for_signup').name] = new Object();
+    }
+    student.events[Session.get('selected_event_for_signup').name][info[1]] = e.currentTarget.value;
+/*
+    if (student.events[Session.get('selected_event_for_signup').name][info[1]] == null) {
+      //console.log("Attribute name not defined in associative array: " + info[1] + ": Initializing name in associative array.");
+      student.events[Session.get('selected_event_for_signup').name][info[1]] = "";
+    }
+*/
+    students.update({"_id": info[0]}, {$set: {
+      "events": student.events
+    }});
   }
 });
 
 
 /////Generic Helper Functions/////
-
 //this function puts our cursor where it needs to be.
 function focusText(i,val) {
   i.focus();
