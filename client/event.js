@@ -3,34 +3,35 @@ Meteor.subscribe("Events");
 Session.set('editing_events', false);
 Session.set('update_event', '');
 Session.set('edit_event_attr', '');
+Session.set('selected_event_for_enrollment', '');
 
-Template.events.rendered = function () {
+Template.edit_events.rendered = function () {
   $('.datepicker').datepicker();
   $('.tooltipclass').tooltip({
     "placement": "bottom",
     "container": "body"
   });
 };
-Template.events.formatDate = function (date) {
+Template.edit_events.formatDate = function (date) {
   var eventDate = moment(date).format("MM/DD/YYYY");
   return eventDate;
 }
-Template.events.eventList = function () {
+Template.edit_events.eventList = function () {
   return events.find({},{sort: {name:1, date:1}});
 };
-Template.events.editingEvents = function () {
+Template.edit_events.editingEvents = function () {
   return Session.equals('editing_events', true);
 };
-Template.events.updatingEvent = function () {
+Template.edit_events.updatingEvent = function () {
   return !Session.equals('update_event','');
 };
-Template.events.updatingThisEvent = function () {
+Template.edit_events.updatingThisEvent = function () {
   return Session.equals('update_event',this._id);
 };
-Template.events.editingThisEventAttr = function () {
+Template.edit_events.editingThisEventAttr = function () {
   return Session.equals('edit_event_attr',this._id);
 };
-Template.events.events({
+Template.edit_events.events({
   'click #btnEditEvents' : function (e, t) {
     Session.set('editing_events', true);
     Meteor.flush();
@@ -142,6 +143,56 @@ Template.events.events({
   }
 });
 
+Template.event_enrollment.classList = function () {
+  return classes.find({},{sort: {grade:1, section:1}});
+};
+Template.event_enrollment.studentsInClass = function (schoolClass) {
+  return students.find({"classId": schoolClass},{sort: {lastname:1, firstname:1}});
+};
+Template.event_enrollment.eventList = function () {
+  return events.find({},{sort: {name:1, date:1}});
+};
+Template.event_enrollment.selectedEvent = function () {
+  return Session.get('selected_event_for_enrollment');
+};
+Template.event_enrollment.isSelectedEvent = function () {
+  if (Session.equals('selected_event_for_enrollment', '') || Session.equals('selected_event_for_enrollment', undefined)) 
+    return false;
+  else
+    return Session.get('selected_event_for_enrollment')._id == this._id;
+};
+Template.event_enrollment.displayNumOfAttributes = function (attributes) {
+  if (attributes == null) return 2;
+  return attributes.length + 2;
+};
+Template.event_enrollment.displayAttrValue = function (enrollment, event_id) {
+  if (enrollment == null || enrollment[event_id] == null || enrollment[event_id][this.name] == null) {
+    return '';
+  } else {
+    return enrollment[event_id][this.name];
+  }
+};
+Template.event_enrollment.displayAttrTotal = function (class_id, event_id) {
+  if (this.type == "number") {
+    //var myStudents =  Template.event_enrollment.studentsInClass(class_id).collection.docs
+    var myStudents =  students.find({"classId": class_id},{}).fetch();
+    var attrTotal = 0;
+    for (studentId in myStudents) {
+      if (typeof myStudents[studentId].enrollment === "undefined" || typeof myStudents[studentId].enrollment[event_id] === "undefined" || typeof myStudents[studentId].enrollment[event_id][this.name] === "undefined") {
+        continue;
+      } else
+        attrTotal += parseInt(myStudents[studentId].enrollment[event_id][this.name]);
+    }
+    return attrTotal;
+  } else {
+    return "N/A";
+  }
+};
+Template.event_enrollment.events({
+  'change .selectedEvent' : function (e, t) {
+    Session.set('selected_event_for_enrollment', events.findOne({"_id": e.target.value}));
+  }
+});
 
 /////Generic Helper Functions/////
 

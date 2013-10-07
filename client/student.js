@@ -28,13 +28,13 @@ Template.students.isTextAttributeType = function () {
 Template.students.isNumberAttributeType = function () {
   return this.type == "number";
 };
-Template.students.findAttrValue = function (events, event_name, type) {
-  if (events == null || 
-    events[Session.get('selected_event_for_signup').name] == null || 
-    events[Session.get('selected_event_for_signup').name][event_name] == null) 
+Template.students.findAttrValue = function (enrollment, event_name, type) {
+  if (enrollment == null || 
+    enrollment[Session.get('selected_event_for_signup')._id] == null || 
+    enrollment[Session.get('selected_event_for_signup')._id][event_name] == null) 
     return type == "number"?0:"";
   else 
-    return events[Session.get('selected_event_for_signup').name][event_name];
+    return enrollment[Session.get('selected_event_for_signup')._id][event_name];
 };
 Template.students.className = function () {
   if (Session.equals('selected_class', '')) {
@@ -117,45 +117,45 @@ Template.students.events({
     var info = e.currentTarget.id.split('_'); // 0: student._id; 1: event.name; 2: plus/minus
     //console.log("Student._id: " + info[0] + "; Event: " + info[1]);
     var student = students.findOne({"_id": info[0]});
-    if (student.events == null) {
+    if (student.enrollment == null) {
       //console.log("No events found for student: " + student.firstname + ": Initializing events array.");
-      student.events = new Object();
+      student.enrollment = new Object();
     }
-    if (student.events[Session.get('selected_event_for_signup').name] == null) {
+    if (student.enrollment[Session.get('selected_event_for_signup')._id] == null) {
       //console.log("No attributes defined for event: " + Session.get('selected_event_for_signup').name + ": Initializing attributes associative array.");
-      student.events[Session.get('selected_event_for_signup').name] = new Object();
+      student.enrollment[Session.get('selected_event_for_signup')._id] = new Object();
     }
-    if (student.events[Session.get('selected_event_for_signup').name][info[1]] == null) {
+    if (student.enrollment[Session.get('selected_event_for_signup')._id][info[1]] == null) {
       //console.log("Attribute name not defined in associative array: " + info[1] + ": Initializing name in associative array.");
-      student.events[Session.get('selected_event_for_signup').name][info[1]] = 0;
+      student.enrollment[Session.get('selected_event_for_signup')._id][info[1]] = 0;
     }
-    if (info[2] == "plus") student.events[Session.get('selected_event_for_signup').name][info[1]]++;
-    else if (info[2] == "minus") student.events[Session.get('selected_event_for_signup').name][info[1]] = Math.max(student.events[Session.get('selected_event_for_signup').name][info[1]]-1, 0);
+    if (info[2] == "plus") student.enrollment[Session.get('selected_event_for_signup')._id][info[1]]++;
+    else if (info[2] == "minus") student.enrollment[Session.get('selected_event_for_signup')._id][info[1]] = Math.max(student.enrollment[Session.get('selected_event_for_signup')._id][info[1]]-1, 0);
     students.update({"_id": info[0]}, {$set: {
-      "events": student.events
+      "enrollment": student.enrollment
     }});
   },
   'blur .attrInputField' : function (e, t) {
     var info = e.currentTarget.id.split('_'); // 0: student._id; 1: event.name; 2: plus/minus
     //console.log("Student._id: " + info[0] + "; Event: " + info[1]);
     var student = students.findOne({"_id": info[0]});
-    if (student.events == null) {
+    if (student.enrollment == null) {
       //console.log("No events found for student: " + student.firstname + ": Initializing events array.");
-      student.events = new Object();
+      student.enrollment = new Object();
     }
-    if (student.events[Session.get('selected_event_for_signup').name] == null) {
+    if (student.enrollment[Session.get('selected_event_for_signup')._id] == null) {
       //console.log("No attributes defined for event: " + Session.get('selected_event_for_signup').name + ": Initializing attributes associative array.");
-      student.events[Session.get('selected_event_for_signup').name] = new Object();
+      student.enrollment[Session.get('selected_event_for_signup')._id] = new Object();
     }
-    student.events[Session.get('selected_event_for_signup').name][info[1]] = e.currentTarget.value;
+    student.enrollment[Session.get('selected_event_for_signup')._id][info[1]] = e.currentTarget.value;
 /*
-    if (student.events[Session.get('selected_event_for_signup').name][info[1]] == null) {
+    if (student.enrollment[Session.get('selected_event_for_signup').name][info[1]] == null) {
       //console.log("Attribute name not defined in associative array: " + info[1] + ": Initializing name in associative array.");
-      student.events[Session.get('selected_event_for_signup').name][info[1]] = "";
+      student.enrollment[Session.get('selected_event_for_signup').name][info[1]] = "";
     }
 */
     students.update({"_id": info[0]}, {$set: {
-      "events": student.events
+      "enrollment": student.enrollment
     }});
   }
 });

@@ -1,10 +1,25 @@
 <template name="events">
-    <form name="edit_events">
-        {{#if editingEvents}}
-            <div class="btn" id="btnFinishEditingEvents">Finish</div>
-        {{else}}
-            <div class="btn" id="btnEditEvents">Edit</div>
-        {{/if}}
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#editTab" data-toggle="tab">Edit Events</a></li>
+    <li><a href="#enrollmentTab" data-toggle="tab">Enrollments</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="editTab">
+    {{> edit_events}}
+    </div>
+    <div class="tab-pane" id="enrollmentTab">
+    {{> event_enrollment}}
+    </div>
+  </div>
+</template>
+
+<template name="edit_events">
+  <form name="edit_events">
+    {{#if editingEvents}}
+      <div class="btn" id="btnFinishEditingEvents">Finish</div>
+    {{else}}
+      <div class="btn" id="btnEditEvents">Edit</div>
+    {{/if}}
     <br />
     <table id="event_table" class="table table-striped">
       <thead>
@@ -95,5 +110,54 @@
         {{/if}}
       </tbody>
     </table>
-    </form>
+  </form>
+</template>
+
+<template name="event_enrollment">
+  <form id="event_enrollment">
+    <select class="selectedEvent">
+      <option value="">Select an event to report</option>
+      {{#each eventList}}
+        {{#if isSelectedEvent}}
+      <option value="{{_id}}" selected="selected">{{name}}</option>
+        {{else}}
+      <option value="{{_id}}">{{name}}</option>
+        {{/if}}
+      {{/each}}
+    </select>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <td class="span1">Last Name</td>
+          <td class="span1">First Name</td>
+          {{#with selectedEvent}}
+          {{#each attributes}}
+          <td class="span1">{{name}}</td>
+          {{/each}}
+          {{/with}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#with selectedEvent}}
+        {{#each classList}}
+        <tr class="warning"><td colspan="{{displayNumOfAttributes ../attributes}}"><h4>{{grade}}-{{section}}</h4></td></tr>
+          {{#each studentsInClass _id}}
+        <tr>
+          <td class="span1">{{lastname}}</td><td class="span1">{{firstname}}</td>
+            {{#each ../../attributes}}
+          <td class="span1">{{displayAttrValue ../enrollment ../../../_id}}</id>
+            {{/each}}
+        </tr>
+          {{/each}}
+        <tr class="info">
+          <td colspan="2"><strong>Totals for {{grade}}-{{section}}</strong></td>
+          {{#each ../attributes}}
+          <td class="span1"><strong>{{displayAttrTotal ../_id ../../_id}}</strong></td>
+          {{/each}}
+        </tr>
+        {{/each}}
+        {{/with}}
+      </tbody>
+    </table>
+  </form>
 </template>
