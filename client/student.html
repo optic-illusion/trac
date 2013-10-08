@@ -2,16 +2,31 @@
   These students are of class: {{className}}.
   <ul class="nav nav-tabs">
     <li class="active"><a href="#profileTab" data-toggle="tab">Student Profiles</a></li>
+    {{#if isInRole 'super-user,student-admin'}}
     <li><a href="#signupTab" data-toggle="tab">Event Sign-Ups</a></li>
+    {{/if}}
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="profileTab">
-      <form name="edit_students">
-          {{#if editingStudents}}
-              <div class="btn" id="btnFinishEditingStudents">Finish</div>
-          {{else}}
-              <div class="btn" id="btnEditStudents">Edit</div>
-          {{/if}}
+    {{> students_profile}}
+    </div>
+    {{#if isInRole 'super-user,student-admin'}}
+    <div class="tab-pane" id="signupTab">
+    {{> students_enrollment}}
+    </div>
+    {{/if}}
+  </div>
+</template>
+
+<template name="students_profile">
+  <form name="edit_students">
+    {{#if isInRole 'super-user,student-admin'}}
+      {{#if editingStudents}}
+      <button type="button" class="btn btn-primary btnFinishEditingStudents"><i class="icon-check icon-white"></i> Finish</button>
+      {{else}}
+      <button type="button" class="btn btn-primary btnEditStudents"><i class="icon-edit icon-white"></i> Edit</button>
+      {{/if}}
+    {{/if}}
       <br />
       <table id="student_table" class="table table-striped">
         <thead>
@@ -72,6 +87,9 @@
         </tbody>
       </table>
       </form>
+</template>
+
+<template name="students_enrollment">
     </div>
     <div class="tab-pane" id="signupTab">
       <form name="signup">

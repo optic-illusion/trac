@@ -1,0 +1,48 @@
+<template name="userAdmin">
+  <form name="userAdminForm">
+    {{#if isInRole 'super-admin'}}
+      {{#if editingUsers}}
+    <button type="button" class="btn btn-primary btnFinishEditingUsers"><i class="icon-check icon-white"></i> Finish</button>
+      {{else}}
+    <button type="button" class="btn btn-primary btnEditUsers"><i class="icon-edit icon-white"></i> Edit</button>
+      {{/if}}
+    {{/if}}
+  <br />
+  <table id="userAdminTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Roles</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each usersList}}
+      <tr>
+        <td>
+          {{#each emails}}
+            {{address}} 
+          {{/each}}
+          <a class="btn deleteUser" href="#"><i class="icon-trash"></i></a></td>
+        <td>
+        {{#each rolesList}}
+          {{#if userIsInRole ../this}}
+            {{#if editingUsers}}
+              <button type="button" id="{{../../../_id}}_{{name}}" class="btn btn-primary toggleRole">{{name}}</button>
+            {{else}}
+              <button type="button" id="{{../../../_id}}_{{name}}" class="btn btn-primary">{{name}}</button>
+            {{/if}}
+          {{else}}
+            {{#if editingUsers}}
+              <button type="button" id="{{../../../_id}}_{{name}}" class="btn btn-primary btn-inverse toggleRole">{{name}}</button>
+            {{else}}
+              <button type="button" id="{{../../../_id}}_{{name}}" class="btn btn-primary btn-inverse">{{name}}</button>
+            {{/if}}
+          {{/if}}
+        {{/each}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  </form>
+</template>

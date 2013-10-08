@@ -16,11 +16,11 @@ Template.classes.editingClasses = function () {
   return Session.equals('editing_classes', true);
 };
 Template.classes.events({
-  'click #btnEditClasses' : function (e, t) {
+  'click .btnEditClasses' : function (e, t) {
     Session.set('editing_classes', true);
     Meteor.flush();
   },
-  'click #btnFinishEditingClasses' : function (e, t) {
+  'click .btnFinishEditingClasses' : function (e, t) {
     Session.set('editing_classes', false);
     Meteor.flush();
   },

@@ -4,38 +4,6 @@ Session.set('editing_students', false);
 Session.set('update_student', '');
 Session.set('selected_event_for_signup', '');
 
-Template.students.rendered = function () {
-  $('.tooltipclass').tooltip({
-    "placement": "bottom",
-    "container": "body"
-  });
-}
-Template.students.studentList = function () {
-  return students.find({classId: Session.get('selected_class')},{sort :{lastname: 1, firstname: 1}});
-};
-Template.students.eventList = function () {
-  return events.find({},{sort :{name: 1, date: 1}});
-};
-Template.students.editingStudents = function () {
-  return Session.equals('editing_students', true);
-};
-Template.students.eventAttributesList = function () {
-  return Session.get('selected_event_for_signup').attributes;
-};
-Template.students.isTextAttributeType = function () {
-  return this.type == "text";
-};
-Template.students.isNumberAttributeType = function () {
-  return this.type == "number";
-};
-Template.students.findAttrValue = function (enrollment, event_name, type) {
-  if (enrollment == null || 
-    enrollment[Session.get('selected_event_for_signup')._id] == null || 
-    enrollment[Session.get('selected_event_for_signup')._id][event_name] == null) 
-    return type == "number"?0:"";
-  else 
-    return enrollment[Session.get('selected_event_for_signup')._id][event_name];
-};
 Template.students.className = function () {
   if (Session.equals('selected_class', '')) {
     return "No class selected!"
@@ -44,18 +12,34 @@ Template.students.className = function () {
     return selectedClass.grade + "-" + selectedClass.section;
   }
 };
-Template.students.updatingStudent = function () {
+
+Template.students_profile.rendered = function () {
+  $('.tooltipclass').tooltip({
+    "placement": "bottom",
+    "container": "body"
+  });
+}
+Template.students_profile.studentList = function () {
+  return students.find({classId: Session.get('selected_class')},{sort :{lastname: 1, firstname: 1}});
+};
+Template.students_profile.eventList = function () {
+  return events.find({},{sort :{name: 1, date: 1}});
+};
+Template.students_profile.editingStudents = function () {
+  return Session.equals('editing_students', true);
+};
+Template.students_profile.updatingStudent = function () {
   return !Session.equals('update_student','')
 };
-Template.students.updatingThisStudent = function () {
+Template.students_profile.updatingThisStudent = function () {
   return Session.equals('update_student',this._id)
 };
-Template.students.events({
-  'click #btnEditStudents' : function (e, t) {
+Template.students_profile.events({
+  'click .btnEditStudents' : function (e, t) {
     Session.set('editing_students', true);
     Meteor.flush();
   },
-  'click #btnFinishEditingStudents' : function (e, t) {
+  'click .btnFinishEditingStudents' : function (e, t) {
     Session.set('editing_students', false);
     Session.set('update_student', '');
     Meteor.flush();
@@ -108,7 +92,34 @@ Template.students.events({
       //console.log("Added " + t.find("#lastname").value + ";" + t.find("#firstname").value + ";" + t.find("#age").value + ";" + t.find("#allergy").value + ";" + this.classId);
       t.find("#lastname").value = t.find("#firstname").value = t.find("#age").value = t.find("#allergy").value = "";
     }
-  },
+  }
+});
+
+
+Template.students_enrollment.studentList = function () {
+  return students.find({classId: Session.get('selected_class')},{sort :{lastname: 1, firstname: 1}});
+};
+Template.students_enrollment.eventList = function () {
+  return events.find({},{sort :{name: 1, date: 1}});
+};
+Template.students_enrollment.eventAttributesList = function () {
+  return Session.get('selected_event_for_signup').attributes;
+};
+Template.students_enrollment.isTextAttributeType = function () {
+  return this.type == "text";
+};
+Template.students_enrollment.isNumberAttributeType = function () {
+  return this.type == "number";
+};
+Template.students_enrollment.findAttrValue = function (enrollment, event_name, type) {
+  if (enrollment == null || 
+    enrollment[Session.get('selected_event_for_signup')._id] == null || 
+    enrollment[Session.get('selected_event_for_signup')._id][event_name] == null) 
+    return type == "number"?0:"";
+  else 
+    return enrollment[Session.get('selected_event_for_signup')._id][event_name];
+};
+Template.students_enrollment.events({
   'click .eventHeaderDropdownItem' : function (e, t) {
     t.find("#eventHeaderTitle").innerHTML=this.name;
     Session.set('selected_event_for_signup', this);
@@ -159,13 +170,3 @@ Template.students.events({
     }});
   }
 });
-
-
-/////Generic Helper Functions/////
-//this function puts our cursor where it needs to be.
-function focusText(i,val) {
-  i.focus();
-  i.value = val ? val : "";
-  i.select();
-
-};//< -----This is the end tag for focusText() -----

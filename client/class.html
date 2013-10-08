@@ -1,10 +1,12 @@
 <template name="classes">
   <form name="new_class">
+    {{#if isInRole 'super-user,class-admin'}}
       {{#if editingClasses}}
-          <div class="btn" id="btnFinishEditingClasses">Finish</div>
+    <button type="button" class="btn btn-primary btnFinishEditingClasses"><i class="icon-check icon-white"></i> Finish</button>
       {{else}}
-          <div class="btn" id="btnEditClasses">Edit</div>
+    <button type="button" class="btn btn-primary btnEditClasses"><i class="icon-edit icon-white"></i> Edit</button>
       {{/if}}
+    {{/if}}
   <br />
   <table id="class_table" class="table table-striped">
     <thead>

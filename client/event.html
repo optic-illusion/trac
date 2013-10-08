@@ -15,10 +15,12 @@
 
 <template name="edit_events">
   <form name="edit_events">
-    {{#if editingEvents}}
-      <div class="btn" id="btnFinishEditingEvents">Finish</div>
-    {{else}}
-      <div class="btn" id="btnEditEvents">Edit</div>
+    {{#if isInRole 'super-user,event-admin'}}
+      {{#if editingEvents}}
+      <button type="button" class="btn btn-primary btnFinishEditingEvents"><i class="icon-check icon-white"></i> Finish</button>
+      {{else}}
+      <button type="button" class="btn btn-primary btnEditEvents"><i class="icon-edit icon-white"></i> Edit</button>
+      {{/if}}
     {{/if}}
     <br />
     <table id="event_table" class="table table-striped">
@@ -56,6 +58,7 @@
               <a class="btn edit_event_attr" href="#"><i class="icon-th-list"></i></a>
               <a class="btn delete_event" href="#"><i class="icon-remove"></i></a>
             </div>
+            {{#isolate}}
             {{#if editingThisEventAttr}}
             <div class="well">
               <table class="table table-striped">
@@ -94,6 +97,7 @@
               </table>
             </div>
             {{/if}}
+            {{/isolate}}
           </td>
           {{/if}}
         {{/if}}
@@ -125,6 +129,7 @@
         {{/if}}
       {{/each}}
     </select>
+    <button type="button" class="btn btn-primary printPageButton"><i class="icon-print icon-white"></i> Print</button>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>

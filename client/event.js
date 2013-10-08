@@ -32,11 +32,11 @@ Template.edit_events.editingThisEventAttr = function () {
   return Session.equals('edit_event_attr',this._id);
 };
 Template.edit_events.events({
-  'click #btnEditEvents' : function (e, t) {
+  'click .btnEditEvents' : function (e, t) {
     Session.set('editing_events', true);
     Meteor.flush();
   },
-  'click #btnFinishEditingEvents' : function (e, t) {
+  'click .btnFinishEditingEvents' : function (e, t) {
     Session.set('editing_events', false);
     Session.set('update_event', '');
     Meteor.flush();
@@ -191,6 +191,9 @@ Template.event_enrollment.displayAttrTotal = function (class_id, event_id) {
 Template.event_enrollment.events({
   'change .selectedEvent' : function (e, t) {
     Session.set('selected_event_for_enrollment', events.findOne({"_id": e.target.value}));
+  },
+  'click .printPageButton' : function (e, t) {
+    window.print();
   }
 });
 
