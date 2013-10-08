@@ -4,7 +4,6 @@ Template.userAdmin.usersList = function () {
   return Meteor.users.find({},{});
 };
 Template.userAdmin.rolesList = function () {
-  console.log(Roles.getAllRoles());
   return Roles.getAllRoles();
 };
 Template.userAdmin.editingUsers = function () {
@@ -24,13 +23,11 @@ Template.userAdmin.events({
   },
   'click .deleteUser' : function (e, t) {
     if (confirm("Are you sure you want to delete this user? This action is irreversable.")) {
-      //console.log("Deleting: " + this._id);
       Meteor.users.remove({_id: this._id});
     }
   },
   'click .toggleRole' : function (e, t) {
     var userId = e.currentTarget.id.substring(0,e.currentTarget.id.indexOf('_')); 
-    console.log(userId + ":" + this.name); 
     if (Roles.userIsInRole(userId, this.name)) {
       Roles.removeUsersFromRoles(userId, this.name);
     } else {
