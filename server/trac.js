@@ -31,14 +31,13 @@ Accounts.onCreateUser(function (options, user) {
 */
 
 Meteor.users.allow({
+  insert: function(userId, docs) {
+    return Roles.userIsInRole(userId, "super-admin");
+  },
   update: function(userId, docs, fields, modifier) {
-    return isSuperUser(userId);
+    return Roles.userIsInRole(userId, "super-admin");
   },
   remove: function(userId, docs) {
-    return isSuperUser(userId);
+    return Roles.userIsInRole(userId, "super-admin");
   }
 });
-
-function isSuperUser(userId) {
-  return Roles.userIsInRole(userId, "super-admin");
-}
