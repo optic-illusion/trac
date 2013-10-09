@@ -14,8 +14,7 @@ Meteor.publish(null, function() {
   return Meteor.users.find({});
 });
 Meteor.startup(function () {
-    // code to run on server at startup
-  try {Roles.createRole("new-user");} catch(e) {};
+  // code to run on server at startup
   try {Roles.createRole("super-admin");} catch(e) {};
   try {Roles.createRole("class-admin");} catch(e) {};
   try {Roles.createRole("student-admin");} catch(e) {};
@@ -33,6 +32,9 @@ Accounts.onCreateUser(function (options, user) {
 
 Meteor.users.allow({
   update: function(userId, docs, fields, modifier) {
+    return isSuperUser(userId);
+  },
+  remove: function(userId, docs) {
     return isSuperUser(userId);
   }
 });

@@ -2,7 +2,7 @@
   These students are of class: {{className}}.
   <ul class="nav nav-tabs">
     <li class="active"><a href="#profileTab" data-toggle="tab">Student Profiles</a></li>
-    {{#if isInRole 'super-user,student-admin'}}
+    {{#if isInRole 'super-admin,student-admin'}}
     <li><a href="#signupTab" data-toggle="tab">Event Sign-Ups</a></li>
     {{/if}}
   </ul>
@@ -10,7 +10,7 @@
     <div class="tab-pane active" id="profileTab">
     {{> students_profile}}
     </div>
-    {{#if isInRole 'super-user,student-admin'}}
+    {{#if isInRole 'super-admin,student-admin'}}
     <div class="tab-pane" id="signupTab">
     {{> students_enrollment}}
     </div>
@@ -20,7 +20,7 @@
 
 <template name="students_profile">
   <form name="edit_students">
-    {{#if isInRole 'super-user,student-admin'}}
+    {{#if isInRole 'super-admin,student-admin'}}
       {{#if editingStudents}}
       <button type="button" class="btn btn-primary btnFinishEditingStudents"><i class="icon-check icon-white"></i> Finish</button>
       {{else}}

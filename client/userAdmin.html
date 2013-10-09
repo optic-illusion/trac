@@ -22,7 +22,9 @@
           {{#each emails}}
             {{address}} 
           {{/each}}
+          {{#if editingUsers}}
           <a class="btn deleteUser" href="#"><i class="icon-trash"></i></a></td>
+          {{/if}}
         <td>
         {{#each rolesList}}
           {{#if userIsInRole ../this}}

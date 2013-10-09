@@ -1,6 +1,6 @@
 <template name="classes">
   <form name="new_class">
-    {{#if isInRole 'super-user,class-admin'}}
+    {{#if isInRole 'super-admin,class-admin'}}
       {{#if editingClasses}}
     <button type="button" class="btn btn-primary btnFinishEditingClasses"><i class="icon-check icon-white"></i> Finish</button>
       {{else}}

@@ -15,7 +15,7 @@
 
 <template name="edit_events">
   <form name="edit_events">
-    {{#if isInRole 'super-user,event-admin'}}
+    {{#if isInRole 'super-admin,event-admin'}}
       {{#if editingEvents}}
       <button type="button" class="btn btn-primary btnFinishEditingEvents"><i class="icon-check icon-white"></i> Finish</button>
       {{else}}
